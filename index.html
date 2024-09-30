@@ -210,7 +210,7 @@
           undefined removeRange(Range range);
           undefined removeAllRanges();
           undefined empty();
-          sequence&lt;StaticRange&gt; getComposedRanges(ShadowRoot... shadowRoots);
+          sequence&lt;StaticRange&gt; getComposedRanges(optional GetComposedRangesOptions options = {});
           undefined collapse(Node? node, optional unsigned long offset = 0);
           undefined setPosition(Node? node, optional unsigned long offset = 0);
           undefined collapseToStart();
@@ -222,6 +222,10 @@
           [CEReactions] undefined deleteFromDocument();
           boolean containsNode(Node node, optional boolean allowPartialContainment = false);
           stringifier;
+        };
+
+        dictionary GetComposedRangesOptions {
+          sequence&lt;ShadowRoot&gt; shadowRoots = [];
         };
       </pre>
       <dl>
@@ -411,8 +415,9 @@
             <li>While <var>startNode</var> is a [=node=],
             <var>startNode</var>'s [=tree/root=] is a [=shadow root=], and
             <var>startNode</var>'s [=tree/root=] is not a [=shadow-including
-            inclusive ancestor=] of any of <var>shadowRoots</var>, repeat these
-            steps:
+            inclusive ancestor=] of any of
+            <var>options</var>["{{GetComposedRangesOptions/shadowRoots}}"],
+            repeat these steps:
               <ol>
                 <li>Set <var>startOffset</var> to [=tree/index=] of
                 <var>startNode</var>'s [=tree/root=]'s [=host=].
@@ -429,7 +434,9 @@
             <li>While <var>endNode</var> is a [=node=], <var>endNode</var>'s
             [=tree/root=] is a [=shadow root=], and <var>endNode</var>'s
             [=tree/root=] is not a [=shadow-including inclusive ancestor=] of
-            any of <var>shadowRoots</var>, repeat these steps:
+            any of
+            <var>options</var>["{{GetComposedRangesOptions/shadowRoots}}"],
+            repeat these steps:
               <ol>
                 <li>Set <var>endOffset</var> to [=tree/index=] of
                 <var>endNode</var>'s [=tree/root=]'s [=host=] plus 1.
